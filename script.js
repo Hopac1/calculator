@@ -1,32 +1,40 @@
-function operate(operator, numOne, numTwo) {
-    if (operator == "+") {
-        // add(numOne, numTwo)
-        console.log(typeof operator)
-    } else if (operator === "-") {
-        subtract(numOne, numTwo)
-    } else if (operator === "/") {
-        divide(numOne, numTwo)
-    } else if (operator === "*") {
-        multiply(numOne, numTwo)
+let sum = 0;
+
+function operate(operatorSymbol, firstNum, secondNum) {
+    if (operatorSymbol === "+") {
+        add(firstNum, secondNum)
+    } else if (operatorSymbol === "-") {
+        subtract(firstNum, secondNum)
+    } else if (operatorSymbol === "/") {
+        divide(firstNum, secondNum)
+    } else if (operatorSymbol === "*") {
+        multiply(firstNum, secondNum)
     }
 }
 
 function add(numOne, numTwo) {
-    return numOne + numTwo;
+    sum = numOne + numTwo;
+    console.log(sum);
+    
 }
 
 function subtract(numOne, numTwo) {
-    return numOne - numTwo;
+    sum = numOne - numTwo;
+    console.log(sum);
 }
 
 function divide(numOne, numTwo) {
     if (numTwo === 0) {
-        return "Cannot divide by zero"
+        console.log("Cannot divide by zero");
+        return;
     }
-    return numOne / numTwo;
+    sum = numOne / numTwo;
+    console.log(sum);
+    
 }
 
 function multiply(numOne, numTwo) {
-    return numOne * numTwo;
+    sum = numOne * numTwo;
+    console.log(sum);
 }
 

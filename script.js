@@ -6,17 +6,18 @@ const clearEntryButton = document.querySelector(".clear-entry");
 const operatorButtons = document.querySelectorAll(".operator");
 const equalButton = document.querySelector(".equal");
 
-let total = 0;
+let total;
 let operator;
 let firstNumber;
 // numberTextBox.value = firstNumber;
 
 let nextNumber;
 
-
 // Event Listeners
 numberButtons.forEach(button => button.addEventListener("click", () => {
     console.log(button.textContent);
+    // if (firstNumber)
+
     if (firstNumber) {
         changeSecondNumDisplay(button);
     } else {
@@ -29,6 +30,7 @@ operatorButtons.forEach(opButton => opButton.addEventListener("click", () => {
 }))
 
 equalButton.addEventListener("click", () => {
+    checkInvalidInput();
     if (firstNumber && nextNumber) {
         operate(operator, firstNumber, nextNumber);
     }
@@ -36,12 +38,18 @@ equalButton.addEventListener("click", () => {
 
 clearButton.addEventListener("click", clearNumbers);
 
-
 // Functions
+function checkInvalidInput() {
+    if (operator === "÷" && nextNumber === 0) {
+        numberTextBox.value = "Undefined"
+    }
+}
+
 function clearNumbers() {
     numberTextBox.value = "";
-    firstNumber = null;
-    nextNumber = null;
+    firstNumber = undefined;
+    nextNumber = undefined;
+    operator = undefined;
     total = 0;
 }
 
@@ -62,14 +70,16 @@ function storeOperator(buttonPressed) {
 
 function showSum() {
     numberTextBox.value = `${firstNumber} ${operator} ${nextNumber} = ${total}`
+    firstNumber = total;
 }
 
 function operate(operatorSymbol, firstNum, secondNum) {
+
     if (operatorSymbol === "+") {
         add(firstNum, secondNum)
     } else if (operatorSymbol === "-") {
         subtract(firstNum, secondNum)
-    } else if (operatorSymbol === "/") {
+    } else if (operatorSymbol === "÷") {
         divide(firstNum, secondNum)
     } else if (operatorSymbol === "*") {
         multiply(firstNum, secondNum)
@@ -89,10 +99,6 @@ function subtract(numOne, numTwo) {
 }
 
 function divide(numOne, numTwo) {
-    if (numTwo === 0) {
-        console.log("Cannot divide by zero");
-        return;
-    }
     total = numOne / numTwo;
     console.log(total);
     

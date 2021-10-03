@@ -3,6 +3,7 @@ const buttons = document.querySelectorAll(".button");
 const numberButtons = document.querySelectorAll(".numbers");
 const clearButton = document.querySelector(".clear");
 const clearEntryButton = document.querySelector(".clear-entry");
+const plusMinusButton = document.querySelector(".plus-minus")
 const operatorButtons = document.querySelectorAll(".operator");
 const equalButton = document.querySelector(".equal");
 
@@ -27,19 +28,22 @@ equalButton.addEventListener("click", () => {
     operate(operator, Number(operands[0]), Number(operands[1]))
 })
 
-clearButton.addEventListener("click", clearNumbers);
+clearButton.addEventListener("click", clear);
 
+plusMinusButton.addEventListener("click", changeToMinusOrPlus)
 
 // Functions
 function appendNumber(number) {
     // Let user be able to enter first and second digits each with a decimal
     // while not allowing user to enter multiple decimals in the same operand
     // MOVE TO OWN FUNCTION AND MAKE NAME EASY TO UNDERSTAND THNE REMOVE THIS CMMNT
-    if (number === "." && operatorPressed === false && operands[0].includes(".")) {
-        return
-    } else if (number === "." && operatorPressed === true && operands[1].includes(".")) {
-        return
-    }
+    // if (number === "." && operatorPressed === false) {
+    //     if (operands[0].includes(".")) {
+    //         return
+    //     }
+    // } else if (number === "." && operatorPressed === true && operands[1].includes(".")) {
+    //     return
+    // }
 
 
     // if (number === "." && operands[0].includes(".") || operands[1].includes(".")) {
@@ -50,6 +54,36 @@ function appendNumber(number) {
     } else {
         operands[0] = operands[0] + number;
     }
+}
+
+function changeToMinusOrPlus() {
+    if (operands[0] === "" && operatorPressed === false) return;
+    if (operands[1] === "" && operatorPressed === true) return;
+
+    if (total) {
+        if (total.includes("-")) {
+            total = total.replace("-", "");
+            total = Number(total);
+        } else {
+            total = "-" + total.toString();
+            total = Number(total);
+        }
+    }
+
+    if (!operatorPressed) {
+        if (operands[0].includes("-")) {
+            operands[0] = operands[0].replace("-", "");
+        } else {
+            operands[0] = "-" + operands[0];
+        }
+    } else {
+        if (operands[1].includes("-")) {
+            operands[1] = operands[1].replace("-", "");
+        } else {
+            operands[1] = "-" + operands[1];
+        }
+    }
+    updateDisplay()
 }
 
 function updateDisplay() {
@@ -64,12 +98,9 @@ function checkInvalidInput() {
     if (!operatorPressed) {
         return
     }
-    // if (operator === "÷" && nextNumber === 0) {
-    //     numberTextBox.value = "Undefined"
-    // }
 }
 
-function clearNumbers() {
+function clear() {
     numberTextBox.value = "";
     operands = ["", ""];
     operatorPressed = false;
@@ -82,9 +113,6 @@ function storeOperator(buttonPressed) {
         return;
     }
     operatorPressed = true;
-    // if (total) {
-    //     nextNumber = undefined;
-    // }
     operator = buttonPressed.textContent;
     numberTextBox.value = `${operands[0]} ${operator} `
 }
@@ -99,6 +127,7 @@ function operate(operatorSymbol, firstNum, secondNum) {
     if (operands[0] === "" || operands[1] === "") {
         return;
     }
+
     if (operatorSymbol === "+") {
         add(firstNum, secondNum)
     } else if (operatorSymbol === "-") {

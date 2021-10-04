@@ -25,7 +25,7 @@ operatorButtons.forEach(opButton => opButton.addEventListener("click", () => {
 
 equalButton.addEventListener("click", () => {
     checkInvalidInput()
-    operate(operator, Number(operands[0]), Number(operands[1]))
+    operate(operator, operands[0], operands[1])
 })
 
 clearButton.addEventListener("click", clear);
@@ -34,21 +34,13 @@ plusMinusButton.addEventListener("click", changeToMinusOrPlus)
 
 // Functions
 function appendNumber(number) {
-    // Let user be able to enter first and second digits each with a decimal
-    // while not allowing user to enter multiple decimals in the same operand
-    // MOVE TO OWN FUNCTION AND MAKE NAME EASY TO UNDERSTAND THNE REMOVE THIS CMMNT
-    // if (number === "." && operatorPressed === false) {
-    //     if (operands[0].includes(".")) {
-    //         return
-    //     }
-    // } else if (number === "." && operatorPressed === true && operands[1].includes(".")) {
-    //     return
-    // }
 
+    if (number === "." && operatorPressed === false && operands[0].includes(".")) {
+        return
+    } else if (number === "." && operatorPressed === true && operands[1].includes(".")) {
+        return
+    }
 
-    // if (number === "." && operands[0].includes(".") || operands[1].includes(".")) {
-    //     return
-    // }
     if (operatorPressed) {
         operands[1] = operands[1] + number;
     } else {
@@ -124,18 +116,24 @@ function showSum() {
 }
 
 function operate(operatorSymbol, firstNum, secondNum) {
+    firstNum = Number(firstNum);
+    secondNum = Number(secondNum);
     if (operands[0] === "" || operands[1] === "") {
         return;
     }
 
     if (operatorSymbol === "+") {
-        add(firstNum, secondNum)
+        total = firstNum + secondNum;
+        console.log(total);
     } else if (operatorSymbol === "-") {
-        subtract(firstNum, secondNum)
+        total = firstNum - secondNum;
+        console.log(total);
     } else if (operatorSymbol === "÷") {
-        divide(firstNum, secondNum)
+        total = firstNum / secondNum;
+        console.log(total);
     } else if (operatorSymbol === "*") {
-        multiply(firstNum, secondNum)
+        total = firstNum * secondNum;
+        console.log(total);
     } 
     showSum();
     operatorPressed = false;
